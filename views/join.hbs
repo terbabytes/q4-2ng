@@ -4,8 +4,8 @@
     <title>Club Sign-Up and Filter</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="AL Mendoza" />
-    <meta name="revised" content="04/06/2025" />
+    <meta name="author" content="Tara Laraine Pablo" />
+    <meta name="revised" content="04/14/2025" />
     <meta name="description" content="Student Club Sign-up Form" />
     <link rel="stylesheet" href="styles.css" />
     
@@ -53,7 +53,9 @@
         
         <label for="organization">Preferred Organization / Club:</label>
         <select id="preferredClub" name="preferredClub" required>
-           <!-- use handlebars to create a drop-down of clubs' name -->
+          {{#each clubArray}}
+            <option value="{{this.name}}">{{this.name}}</option>
+            {{/each}}
         </select>
         
         <label for="reason">Why do you want to join?</label>
@@ -69,6 +71,9 @@
           <button type="button"> Click Here to See Member list </button>
         </a>
     </p>
-     
+     <p style="font-size: 0.75em; text-align: center">
+      Acknowledgement: Overall Design of the page was initially Generated using AI Co-pilot
+    </p>    
+  
 </body>
 </html>

@@ -56,6 +56,52 @@ app.get('/', (req, res) => {
   }
 });
 
+app.get('/join', (req, res) => {
+  try {
+    if (!clubArray || clubArray.length === 0) {
+      throw new Error('Club array empty or not defined');
+    }
+
+    res.render('join.hbs', { clubArray });
+  } catch (error) {
+    console.error('Error rendering join page:', error);
+    res.status(500).send('Error loading join page');
+  }
+});
+
+app.post('/submit-form', (req, res) => {
+  try {
+    // get form data
+    const formData = req.body;
+    console.log('Form data received:', formData);
+    
+    // read data
+    let clubMembers = {};
+    if (fs.existsSync(usersFilePath)) {
+      const fileContent = fs.readFileSync(usersFilePath, 'utf8');
+      if (fileContent) {
+        clubMembers = JSON.parse(fileContent);
+      }
+    }
+    
+    // Initialize students array if it doesn't exist in the data
+    if (!clubMembers.students) {
+      clubMembers.students = [];
+    }
+    
+    // add new student data to the array
+    clubMembers.students.push(formData);
+    
+    // write updated data back to file with formatting (null, 2 adds indentation)
+    fs.writeFileSync(usersFilePath, JSON.stringify(clubMembers, null, 2));
+      
+    // redirect user back to join page after submission
+    res.redirect('/join');
+  } catch (error) {
+    console.error('Error saving form data:', error);
+    res.status(500).send('Error saving form data');
+  }
+});
 
 
 
